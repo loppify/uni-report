@@ -1,0 +1,218 @@
+@page {
+    size: A4;
+    margin: 20mm 15mm 20mm 25mm;
+
+    @bottom-center {
+        content: counter(page);
+        font-family: "Times New Roman", serif;
+        font-size: 12pt;
+    }
+}
+
+@page:first {
+    @bottom-center {
+        content: none;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Times New Roman", "Liberation Serif", serif;
+    font-size: 14pt;
+    line-height: 1.5;
+    color: #000;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+}
+
+p {
+    margin: 0;
+    text-align: justify;
+    text-indent: 1.25cm;
+    orphans: 3;
+    widows: 3;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    break-after: avoid;
+    page-break-after: avoid;
+}
+
+h1 {
+    margin: 1.5em 0 1em;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+h2 {
+    margin: 1.25em 0 0.75em;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: left;
+}
+
+h3 {
+    margin: 1em 0 0.5em;
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: left;
+}
+
+ul,
+ol {
+    margin: 0.5em 0 0.5em 1.25cm;
+}
+
+li {
+    text-align: justify;
+}
+
+figure {
+    margin: 1em 0;
+    text-align: center;
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 220mm;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+figcaption {
+    margin-top: 0.5em;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin: 1em 0;
+    border-collapse: collapse;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    font-size: 12pt;
+}
+
+th,
+td {
+    padding: 4px 6px;
+    border: 1px solid #000;
+    vertical-align: top;
+}
+
+th {
+    font-weight: normal;
+    text-align: center;
+}
+
+pre {
+    margin: 1em 0;
+    padding: 8px 10px;
+
+    border: 1px solid #777;
+
+    font-family: "Liberation Mono", "Courier New", monospace;
+    font-size: 10pt;
+    line-height: 1.25;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+
+    break-inside: auto;
+}
+
+code {
+    font-family: "Liberation Mono", "Courier New", monospace;
+}
+
+p code {
+    font-size: 12pt;
+}
+
+.math-display,
+mjx-container[display="true"] {
+    margin: 1em 0 !important;
+    text-align: center !important;
+    break-inside: avoid;
+}
+
+.page-break {
+    break-before: page;
+    page-break-before: always;
+}
+
+
+/* TITLE PAGE */
+
+.title-page {
+    position: relative;
+    min-height: 247mm;
+    display: flex;
+    flex-direction: column;
+
+    break-after: page;
+    page-break-after: always;
+}
+
+.title-page p {
+    margin: 0;
+    text-indent: 0;
+}
+
+.title-university {
+    text-align: center;
+}
+
+.title-university p {
+    text-align: center;
+}
+
+.title-work {
+    margin-top: 55mm;
+    text-align: center;
+}
+
+.title-work p {
+    margin: 0.4em 0;
+    text-align: center;
+}
+
+.title-work-type {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.title-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 35mm;
+}
+
+.title-info p {
+    text-align: left;
+}
+
+.title-info-gap {
+    height: 1em;
+}
+
+.title-location {
+    margin-top: auto;
+    padding-bottom: 5mm;
+    text-align: center;
+}

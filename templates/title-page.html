@@ -1,0 +1,57 @@
+<section class="title-page">
+
+    <div class="title-university">
+        <p>Міністерство освіти і науки України</p>
+        <p>{{ university.name }}</p>
+
+        {% if university.faculty %}
+        <p>{{ university.faculty }}</p>
+        {% endif %}
+
+        {% if university.department %}
+        <p>{{ university.department }}</p>
+        {% endif %}
+    </div>
+
+    <div class="title-work">
+        <p class="title-work-type">
+            {{ report.type }}
+            {% if report.number %}
+            № {{ report.number }}
+            {% endif %}
+        </p>
+
+        {% if report.title %}
+        <p>«{{ report.title }}»</p>
+        {% endif %}
+
+        {% if report.discipline %}
+        <p>з дисципліни «{{ report.discipline }}»</p>
+        {% endif %}
+    </div>
+
+    <div class="title-info">
+        <div></div>
+
+        <div>
+            <p>Виконав:</p>
+            <p>студент групи {{ student.group }}</p>
+            <p>{{ student.name }}</p>
+
+            <div class="title-info-gap"></div>
+
+            <p>Перевірив:</p>
+
+            {% if teacher.position %}
+            <p>{{ teacher.position }}</p>
+            {% endif %}
+
+            <p>{{ teacher.name }}</p>
+        </div>
+    </div>
+
+    <div class="title-location">
+        {{ location.city }} {{ location.year }}
+    </div>
+
+</section>
