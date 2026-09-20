@@ -93,6 +93,118 @@ build/<work_id>.pdf
 
 Before submitting anything, review the implementation, calculations, sources, screenshots, personal data, and final PDF yourself.
 
+## Try the included example
+
+The repository includes a small generic example that exercises text, an image, inline math, display math, HTML generation, and PDF generation.
+
+```sh
+mkdir -p report
+cp -r examples/practice_01 report/practice_01
+uv run python scripts/build.py practice_01
+```
+
+Then open:
+
+```text
+build/practice_01.html
+build/practice_01.pdf
+```
+
+Math written as `$...# uni-report
+
+Turn university assignments into structured reports with an AI coding agent, then build them into HTML and PDF.
+
+This repository is the **workspace and report pipeline**. The AI agent reads your methodology and assignment files, completes the requested work, writes the report, and verifies the result. `uni-report` provides the repository conventions, report structure, templates, and build step.
+
+> It does **not** include an AI model or agent runtime. Use it with OpenCode or another coding agent.
+
+## Quick start with OpenCode
+
+### 1. Clone the repository
+
+```sh
+git clone https://github.com/loppify/uni-report.git
+cd uni-report
+```
+
+### 2. Install dependencies
+
+You need Python 3.12+ and [uv](https://docs.astral.sh/uv/).
+
+```sh
+uv sync
+```
+
+PDF generation uses [WeasyPrint](https://doc.courtbou.me/weasyprint/stable/first_steps.html), so your system may also need its native libraries.
+
+### 3. Add your assignment materials
+
+Put the methodology, assignment, starter files, screenshots, datasets, and any other source material into:
+
+```text
+input/
+```
+
+Do not commit personal data, university credentials, tokens, cookies, or private files.
+
+### 4. Open the repository in OpenCode
+
+Start OpenCode from the repository root. The detailed agent workflow is documented in [AGENTS.md](AGENTS.md).
+
+A minimal prompt can be:
+
+```text
+Read AGENTS.md and all relevant files in input/.
+
+Complete the requested university assignment from the provided materials.
+Determine the correct requirements and variant from the source files.
+Run and verify the actual work instead of inventing results.
+Create a separate report directory under report/ for every independently submitted work.
+Build the final HTML and PDF files and verify the generated output.
+
+My request:
+<describe which lab/practical/assignment you want completed>
+
+Optional details:
+- variant:
+- journal number:
+- teacher:
+- work numbers:
+```
+
+For example:
+
+```text
+Read AGENTS.md and all relevant files in input/.
+
+Complete laboratory work 5 from the methodology.
+My variant is 8.
+Run the implementation, verify the result, generate the report,
+build the HTML and PDF, and check the final PDF before finishing.
+```
+
+### 5. Check the result
+
+Every independent work should end up as:
+
+```text
+report/<work_id>/
+    report.md
+    metadata.yaml
+    code/
+    images/
+    artifacts/
+```
+
+Built files are written to:
+
+```text
+build/<work_id>.html
+build/<work_id>.pdf
+```
+
+, `$...$`, `\\(...\\)`, or `\\[...\\]` is converted to static SVG before PDF generation, so formulas do not depend on browser JavaScript. The renderer uses Matplotlib mathtext, which supports common TeX-style notation but not arbitrary LaTeX packages or commands.
+
 ## How the workflow works
 
 1. Put source materials in `input/`.
@@ -168,6 +280,7 @@ Generated reports, source materials, and student profiles are ignored by Git bec
 AGENTS.md              Instructions for the AI coding agent
 scripts/build.py        Build HTML and PDF reports
 templates/              Report and title-page templates
+examples/               Generic committed example work
 input/                  Local methodology and assignment materials
 report/<work_id>/       Generated work, code, images, and artifacts
 build/                  Generated HTML/PDF output
@@ -180,7 +293,7 @@ tests/                  Renderer/build checks
 - AI-generated work is not automatically correct. Verify code, calculations, sources, and output before submission.
 - Assignment quality depends on the source materials you provide.
 - PDF rendering depends on system libraries and installed fonts.
-- MathJax is loaded for browser HTML, but JavaScript-dependent math rendering may not be available in PDF output.
+- Static PDF math uses Matplotlib mathtext. Common TeX-style formulas are supported, but arbitrary LaTeX packages and commands are not.
 - Never put secrets, real credentials, or sensitive student data in files intended for a public repository.
 
 ## Academic use
