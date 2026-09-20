@@ -1,7 +1,9 @@
 <section class="title-page">
 
     <div class="title-university">
-        <p>Міністерство освіти і науки України</p>
+        {% if university.authority %}
+        <p>{{ university.authority }}</p>
+        {% endif %}
         <p>{{ university.name }}</p>
 
         {% if university.faculty %}
