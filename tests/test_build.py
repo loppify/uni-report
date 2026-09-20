@@ -17,6 +17,11 @@ class BuildTests(unittest.TestCase):
         html = build.render_html(work_id).read_text(encoding="utf-8")
         build.validate_local_assets(html)
 
+        self.assertIn('href="assets/practice_01/README.md"', html)
+        self.assertTrue(
+            (build.BUILD / "assets/practice_01/README.md").is_file()
+        )
+
     def test_missing_asset_is_reported(self):
         with self.assertRaises(FileNotFoundError):
             build.validate_local_assets('<img src="assets/missing/image.png">')

@@ -53,6 +53,13 @@ def rewrite_asset_paths(html: str, work_id: str) -> str:
     prefix = f"assets/{work_id}/"
 
     html = re.sub(
+        r'(<a[^>]+href=["\'])README\.md(["\'])',
+        rf"\1{prefix}README.md\2",
+        html,
+        flags=re.IGNORECASE,
+    )
+
+    html = re.sub(
         r'(<img[^>]+src=["\'])(images/)',
         rf"\1{prefix}images/",
         html,
@@ -160,6 +167,12 @@ def copy_directory(source: Path, target: Path) -> None:
     )
 
 
+def copy_file(source: Path, target: Path) -> None:
+    if source.exists():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+
+
 def copy_assets(work_id: str) -> None:
     work_dir = get_work_dir(work_id)
     target = ASSETS / work_id
@@ -183,6 +196,7 @@ def copy_assets(work_id: str) -> None:
         work_dir / "artifacts",
         target / "artifacts",
     )
+    copy_file(work_dir / "README.md", target / "README.md")
 
 
 def copy_css() -> None:
