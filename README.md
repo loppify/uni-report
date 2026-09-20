@@ -1,4 +1,4 @@
-# nure-report
+# uni-report
 
 Small Python utility for turning Markdown-based university reports into HTML and PDF files. It is intended to be used with an AI coding agent that prepares the assignment, while this repository provides the report layout and build step.
 
