@@ -117,7 +117,7 @@ def _math_svg(expr: str, work_id: str, display: bool) -> str:
     if not output.exists():
         font = FontProperties(size=14 if display else 12)
         math_to_image(
-            f"$\\displaystyle {expr}$" if display else f"${expr}$",
+            f"${expr}$",
             str(output),
             prop=font,
             format="svg",
@@ -284,6 +284,7 @@ def copy_assets(work_id: str) -> None:
 
 
 def copy_css() -> None:
+    BUILD.mkdir(parents=True, exist_ok=True)
     css_source = TEMPLATES / "report.css"
     css_target = BUILD / "report.css"
 
