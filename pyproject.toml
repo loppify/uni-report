@@ -1,15 +1,14 @@
 [project]
 name = "nure-report"
 version = "0.1.0"
+description = "Render Markdown university reports as HTML and PDF"
 requires-python = ">=3.12"
 
 dependencies = [
-    "flask>=3.1",
     "jinja2>=3.1",
     "markdown>=3.8",
-    "numpy>=2.5",
-    "opencv-python-headless>=5.0",
-    "pillow>=12.3",
+    "markupsafe>=2.1",
     "pyyaml>=6.0",
     "weasyprint>=70.0",
+    "cryptography>=43.0",
 ]

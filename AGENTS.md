@@ -82,14 +82,9 @@ A multi-work request is complete only when every requested work independently sa
 
 ### Input materials
 
-`input/methodics/`
+`input/`
 
-Contains methodological instructions, lecture materials, task descriptions, examples, PDFs, DOCX files, images, or other source material describing how the work must be completed.
-
-`input/assignments/`
-
-Contains assignment-specific files such as:
-
+Contains methodological instructions, lecture materials, task descriptions, examples, PDFs, DOCX files, images, or other source material describing how the work must be completed, student data and assignment-specific files such as:
 - individual task descriptions;
 - variant tables;
 - datasets;
@@ -551,6 +546,64 @@ Do not place code for several independent works into one shared source file unle
 
 ---
 
+## Execution gate — the report is not the assignment
+
+The actual assignment must be completed before the final report is written.
+
+A report is documentation of completed work. It is never a substitute for the implementation, experiment, calculation, media artifact, dataset transformation, diagram, program, configuration, or other deliverable required by the assignment.
+
+For every independent work, classify the required deliverables before writing the report.
+
+Possible deliverable classes include:
+
+- source code;
+- executable program;
+- project files;
+- calculations;
+- datasets;
+- generated images;
+- audio;
+- video;
+- graphs;
+- diagrams;
+- configuration files;
+- exported results;
+- screenshots of actual execution;
+- answers to control questions;
+- other assignment-specific artifacts.
+
+If the methodology requires any non-report deliverable, that deliverable is mandatory.
+
+Before writing the final `report.md`:
+
+1. Determine every required non-report deliverable from the source materials.
+2. Create the required implementation or artifact.
+3. Save it under the appropriate `report/<work_id>/code/`, `images/`, or `artifacts/` directory.
+4. Run, render, calculate, export, or otherwise execute it when technically possible.
+5. Verify the produced result.
+6. Fix errors until the required result is obtained.
+7. Only then write the report using the verified work as its source.
+
+Never infer that a report-only submission is acceptable merely because the methodology asks for a report.
+
+If programming is required and `report/<work_id>/code/` contains no actual implementation, the work is incomplete.
+
+If generated media or experimental output is required and the corresponding `images/` or `artifacts/` files do not exist, the work is incomplete.
+
+If screenshots are required, generate them from the actual executed work. Do not replace them with prose describing what a screenshot would show.
+
+If the implementation cannot be executed because of a real technical limitation:
+
+1. still create the complete implementation when possible;
+2. preserve all source files;
+3. distinguish unexecuted implementation from verified results;
+4. do not fabricate output;
+5. do not declare the work submission-ready unless the assignment can genuinely be submitted without the missing execution result.
+
+The agent must never use report prose to hide a missing implementation.
+
+---
+
 ## Calculations
 
 When calculations are required:
@@ -595,6 +648,12 @@ report/<work_id>/artifacts/
 ---
 
 ## Report generation
+
+Report generation begins only after the Execution gate has passed for the current work.
+
+The report must be based on artifacts that actually exist in `report/<work_id>/code/`, `images/`, and/or `artifacts/` whenever the assignment requires such artifacts.
+
+Do not write a fictional implementation narrative first and create the implementation later.
 
 Write the final report in Ukrainian unless the assignment explicitly requires another language.
 
@@ -1160,7 +1219,9 @@ Reusable implementation code may be shared internally when technically reasonabl
 
 ## Verification of assignment completeness
 
-Before declaring a work complete, compare the final result against the original assignment.
+Before declaring a work complete, compare the final result against the original assignment and against the actual files produced for the work.
+
+A required deliverable is considered complete only when the corresponding artifact exists and has been verified. Mentioning it in `report.md` does not count as completing it.
 
 Check that every required:
 
@@ -1258,26 +1319,29 @@ A single independent assignment is complete only when:
 2. The boundaries of the work have been correctly identified.
 3. The correct task has been identified.
 4. The correct variant has been identified when required.
-5. Required implementation has been completed.
-6. Required implementation has been run or otherwise verified.
-7. Required calculations have been verified.
-8. Required results have been generated.
-9. Required figures have been generated.
-10. Required tables have been generated.
-11. Required formulas have been included.
-12. Required control questions have been answered.
-13. `report/<work_id>/metadata.yaml` has been generated.
-14. `report/<work_id>/report.md` has been generated.
-15. `build/<work_id>.html` has been generated.
-16. `build/<work_id>.pdf` has been generated.
-17. HTML has been checked.
-18. PDF has been visually inspected.
-19. Layout problems have been corrected.
-20. No placeholder content remains.
-21. No unsupported results have been invented.
-22. No content from another work has accidentally leaked into the report.
-23. The report reads as an independent student submission.
-24. The work can be submitted without manual editing.
+5. Every required non-report deliverable has been identified.
+6. Required implementation has been completed and exists as actual files.
+7. Required implementation has been run or otherwise verified when technically possible.
+8. Required calculations have been performed and verified.
+9. Required results have been generated from the actual work.
+10. Required figures, screenshots, media, datasets, diagrams, or other artifacts have been generated from the actual work.
+11. Required tables have been generated.
+12. Required formulas have been included.
+13. Required control questions have been answered.
+14. `report/<work_id>/metadata.yaml` has been generated.
+15. `report/<work_id>/report.md` has been generated only after the required work exists.
+16. `build/<work_id>.html` has been generated.
+17. `build/<work_id>.pdf` has been generated.
+18. HTML has been checked.
+19. PDF has been visually inspected.
+20. Layout problems have been corrected.
+21. No placeholder content remains.
+22. No unsupported results have been invented.
+23. No report claim refers to an implementation, result, screenshot, graph, media file, or experiment that does not actually exist.
+24. No content from another work has accidentally leaked into the report.
+25. The report reads as an independent student submission.
+26. The required non-report deliverables are present and submission-ready.
+27. The complete work can be submitted without manual editing.
 
 ---
 

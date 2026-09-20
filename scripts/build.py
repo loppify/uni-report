@@ -15,12 +15,18 @@ REPORT = ROOT / "report"
 TEMPLATES = ROOT / "templates"
 BUILD = ROOT / "build"
 ASSETS = BUILD / "assets"
+WORK_ID_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 
 BUILD.mkdir(exist_ok=True)
 ASSETS.mkdir(exist_ok=True)
 
 
 def get_work_dir(work_id: str) -> Path:
+    if not WORK_ID_PATTERN.fullmatch(work_id):
+        raise ValueError(
+            "work_id must contain only letters, numbers, '-' or '_'."
+        )
+
     work_dir = REPORT / work_id
 
     if not work_dir.is_dir():
@@ -233,12 +239,36 @@ def render_pdf(html_path: Path, work_id: str) -> Path:
     return output
 
 
+def validate_local_assets(html: str) -> None:
+    references = re.findall(
+        r'(?:src|href)=["\'](assets/[^"\'#?]+)',
+        html,
+        flags=re.IGNORECASE,
+    )
+
+    missing = [
+        reference
+        for reference in references
+        if not (BUILD / reference).is_file()
+    ]
+
+    if missing:
+        names = ", ".join(sorted(set(missing)))
+        raise FileNotFoundError(f"Generated document references missing assets: {names}")
+
+
 def build_work(work_id: str) -> None:
     print(f"Building: {work_id}")
+
+    for suffix in ("html", "pdf"):
+        output = BUILD / f"{work_id}.{suffix}"
+        if output.exists():
+            output.unlink()
 
     copy_assets(work_id)
 
     html_path = render_html(work_id)
+    validate_local_assets(html_path.read_text(encoding="utf-8"))
     pdf_path = render_pdf(html_path, work_id)
 
     print(f"Generated: {html_path}")

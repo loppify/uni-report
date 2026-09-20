@@ -34,19 +34,25 @@
         <div></div>
 
         <div>
+            {% if student and (student.group or student.name) %}
             <p>Виконав:</p>
-            <p>студент групи {{ student.group }}</p>
-            <p>{{ student.name }}</p>
+            {% if student.group %}<p>студент групи {{ student.group }}</p>{% endif %}
+            {% if student.name %}<p>{{ student.name }}</p>{% endif %}
+            {% endif %}
 
             <div class="title-info-gap"></div>
 
+            {% if teacher and (teacher.position or teacher.name) %}
             <p>Перевірив:</p>
 
             {% if teacher.position %}
             <p>{{ teacher.position }}</p>
             {% endif %}
 
+            {% if teacher.name %}
             <p>{{ teacher.name }}</p>
+            {% endif %}
+            {% endif %}
         </div>
     </div>
 

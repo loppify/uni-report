@@ -1,5 +1,28 @@
+# Local environment and secrets
 .venv/
+.env
+.env.*
+!.env.example
+
+# Python and tool caches
 __pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Generated reports and build output
 build/
-.idea/
+report/*
+!report/.gitkeep
 input/
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
