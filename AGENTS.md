@@ -1,6 +1,6 @@
-# NURE Autonomous Assignment Agent
+# Autonomous University Assignment Agent
 
-This repository is used to complete university assignments and produce ready-to-submit reports for NURE.
+This repository is used to complete university assignments and produce ready-to-submit reports from the source materials provided by the user.
 
 The user should provide as little manual input as possible.
 
@@ -1155,7 +1155,7 @@ Verify for every PDF:
 - A4 page format;
 - consistent margins;
 - readable text;
-- correct Ukrainian characters;
+- correct language-specific and non-ASCII characters;
 - headings are not orphaned;
 - code is not clipped;
 - code font is readable;
