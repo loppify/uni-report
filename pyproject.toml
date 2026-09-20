@@ -1,5 +1,5 @@
 [project]
-name = "nure-report"
+name = "uni-report"
 version = "0.1.0"
 description = "Render Markdown university reports as HTML and PDF"
 requires-python = ">=3.12"
