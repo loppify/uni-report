@@ -1,4 +1,6 @@
 from argparse import ArgumentParser
+from hashlib import sha256
+from html import escape
 from pathlib import Path
 import re
 import shutil
@@ -7,6 +9,8 @@ import markdown
 import yaml
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from markupsafe import Markup
+from matplotlib.font_manager import FontProperties
+from matplotlib.mathtext import math_to_image
 from weasyprint import HTML
 
 
@@ -83,6 +87,85 @@ def rewrite_asset_paths(html: str, work_id: str) -> str:
     return html
 
 
+def _protect_code(source: str) -> tuple[str, dict[str, str]]:
+    protected: dict[str, str] = {}
+
+    def replace(match: re.Match) -> str:
+        token = f"@@UNI_REPORT_PROTECTED_{len(protected)}@@"
+        protected[token] = match.group(0)
+        return token
+
+    source = re.sub(r"\x60\x60\x60.*?\x60\x60\x60", replace, source, flags=re.DOTALL)
+    source = re.sub(r"(?<!\x60)\x60[^\n\x60]+\x60", replace, source)
+    return source, protected
+
+
+def _restore_code(source: str, protected: dict[str, str]) -> str:
+    for token, value in protected.items():
+        source = source.replace(token, value)
+    return source
+
+
+def _math_svg(expr: str, work_id: str, display: bool) -> str:
+    digest = sha256(
+        f"{'display' if display else 'inline'}:{expr}".encode("utf-8")
+    ).hexdigest()[:20]
+    relative = Path("assets") / work_id / "math" / f"{digest}.svg"
+    output = BUILD / relative
+    output.parent.mkdir(parents=True, exist_ok=True)
+
+    if not output.exists():
+        font = FontProperties(size=14 if display else 12)
+        math_to_image(
+            f"$\\displaystyle {expr}$" if display else f"${expr}$",
+            str(output),
+            prop=font,
+            format="svg",
+            dpi=180,
+        )
+
+    url = relative.as_posix()
+    alt = escape(expr, quote=True)
+
+    if display:
+        return (
+            f'<div class="math-display">'
+            f'<img class="math-display-image" src="{url}" alt="{alt}">'
+            f"</div>"
+        )
+
+    return f'<img class="math-inline" src="{url}" alt="{alt}">'
+
+
+def render_static_math(source: str, work_id: str) -> str:
+    source, protected = _protect_code(source)
+
+    source = re.sub(
+        r"\$\$(.+?)\$\$",
+        lambda match: _math_svg(match.group(1).strip(), work_id, True),
+        source,
+        flags=re.DOTALL,
+    )
+    source = re.sub(
+        r"\\\[(.+?)\\\]",
+        lambda match: _math_svg(match.group(1).strip(), work_id, True),
+        source,
+        flags=re.DOTALL,
+    )
+    source = re.sub(
+        r"\\\((.+?)\\\)",
+        lambda match: _math_svg(match.group(1).strip(), work_id, False),
+        source,
+        flags=re.DOTALL,
+    )
+    source = re.sub(
+        r"(?<!\\)(?<!\$)\$(?!\$)(.+?)(?<!\\)\$(?!\$)",
+        lambda match: _math_svg(match.group(1).strip(), work_id, False),
+        source,
+    )
+
+    return _restore_code(source, protected)
+
 def wrap_images_in_figures(html: str) -> str:
     pattern = re.compile(
         r'<p><img alt="([^"]*)" src="([^"]+)" /></p>'
@@ -134,6 +217,7 @@ def render_markdown(work_id: str) -> str:
         )
 
     source = path.read_text(encoding="utf-8")
+    source = render_static_math(source, work_id)
 
     html = markdown.markdown(
         source,
