@@ -1,0 +1,35 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run tests
+        run: uv run python -m unittest discover -s tests -p 'test_*.py'
+
+      - name: Smoke-build example
+        run: |
+          mkdir -p report
+          cp -r examples/practice_01 report/practice_01
+          uv run python scripts/build.py practice_01
+          test -s build/practice_01.html
+          test -s build/practice_01.pdf
