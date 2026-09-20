@@ -1,13 +1,14 @@
 [project]
 name = "uni-report"
 version = "0.1.0"
-description = "Render Markdown university reports as HTML and PDF"
+description = "Render AI-assisted university reports as HTML and PDF"
 requires-python = ">=3.12"
 
 dependencies = [
     "jinja2>=3.1",
     "markdown>=3.8",
     "markupsafe>=2.1",
+    "matplotlib>=3.9",
     "pyyaml>=6.0",
     "weasyprint>=70.0",
     "cryptography>=43.0",
