@@ -1,0 +1,15 @@
+university:
+  name: Example University
+  department: Example Department
+report:
+  type: Practical work
+  number: "1"
+  title: Example report
+  discipline: Example discipline
+student:
+  name: Student Name
+  group: GROUP-01
+teacher: {}
+location:
+  city: City
+  year: "2026"
